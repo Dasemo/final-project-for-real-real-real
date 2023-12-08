@@ -17,7 +17,7 @@ class Player(Properties):
             self.x -= 4
         elif self.x == 0 and direction.lower() == 'left':
             self.x = 255
-        if direction.lower() == 'right' and self.x == size - xSize:
+        elif self.x == size - xSize and direction.lower() == 'right':
             self.x = 0
         
 
