@@ -15,6 +15,11 @@ class Player(Properties):
             self.x = self.x + 4
         elif direction.lower() == 'left' and self.x > 0:
             self.x -= 4
+        elif self.x == 0 and direction.lower() == 'left':
+            self.x = 255
+        if direction.lower() == 'right' and self.x == size - xSize:
+            self.x = 0
+        
 
     def jump(self):
         if not self.jumping:
@@ -37,3 +42,4 @@ class Player(Properties):
 
     def groundHeight(self):
         return 200
+    
