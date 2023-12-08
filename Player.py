@@ -32,14 +32,17 @@ class Player(Properties):
 
         self.y += self.vel_y
 
+        # Ajusta la lógica de colisión para que Mario no se hunda por debajo del suelo
         if self.ground():
-            self.y = self.groundHeight()
+            self.y = min(self.y, self.groundHeight())
             self.vel_y = 0
             self.jumping = False
+        else:
+            self.jumping = True  # Permite que Mario siga saltando mientras esté en el aire
+
 
     def ground(self):
         return self.y == self.groundHeight()
 
     def groundHeight(self):
-        return 200
-    
+        return 218
