@@ -1,5 +1,6 @@
-import pyxel
 from Player import Player
+from enemies import Shellcreeper
+import pyxel
 
 class App:
     def __init__(self, w: int, h: int):
@@ -31,6 +32,7 @@ class App:
         elif pyxel.btn(pyxel.KEY_LEFT):
             self.plane.move('left', self.width)
 
+        # Update the plane's state
         self.plane.update()
 
     def draw(self):
@@ -43,4 +45,8 @@ class App:
                 pyxel.blt(20, 0, 0, 0, tile_index * self.tile_size, self.tile_size, self.tile_size)
 
         # Dibujar el jugador
+        pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
+        # We draw the plane taking the values from the plane object
+        # Parameters are x, y, and a tuple containing the image bank,
+        # the starting x and y and the size
         pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
