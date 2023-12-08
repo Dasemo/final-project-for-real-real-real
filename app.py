@@ -14,7 +14,7 @@ class App:
         # Definir el mapa (un ejemplo simple)
         self.map_width = 8
         self.map_height = 1
-        self.tile_size = 12
+        self.tile_size = 50
         self.map_data = [
             [3, 4, 2, 3, 4, 5, 2, 2, 2],
         ]
@@ -40,7 +40,7 @@ class App:
         for y in range(self.map_height):
             for x in range(self.map_width):
                 tile_index = self.map_data[y][x]
-                pyxel.blt(x * self.tile_size, y * self.tile_size, 0, 0, tile_index * self.tile_size, self.tile_size, self.tile_size)
+                pyxel.blt(20, 0, 0, 0, tile_index * self.tile_size, self.tile_size, self.tile_size)
 
         # Dibujar el jugador
         pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
