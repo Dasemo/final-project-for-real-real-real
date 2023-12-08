@@ -1,16 +1,14 @@
 import pyxel
 
 class Properties:
-    def _init_(self, x, y, u, v, w, h, sprite=0):
-        self.x = x
-        self.y = y
-        self.u = u
-        self.v = v
-        self.w = w
-        self.h = h
+    def __init__(self, x, y, u, v, w, h, sprite=0):
+        self.__x = x
+        self.__y = y
+        self.__u = u
+        self.__v = v
+        self.__w = w
+        self.__h = h
         self.sprite = sprite
-
-
 
     @property
     def x(self):
@@ -36,7 +34,6 @@ class Properties:
     def h(self):
         return self.__h
 
-    
     @x.setter
     def x(self, x):
         if x < 0:
@@ -94,5 +91,3 @@ class Properties:
             self.__h = -h
         else:
             self.__h = h
-
-
