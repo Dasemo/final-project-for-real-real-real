@@ -1,6 +1,6 @@
 from properties import Properties
 
-class Shellcreeper:
+class Shellcreeper(Properties):
     def __init__(self, x, y, is_falling):
         self.x = x
         self.y = y

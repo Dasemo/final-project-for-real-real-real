@@ -1,9 +1,7 @@
 import pyxel
-from map import Map
-#pyxel edit assets/ey.pyxres
 
 class Properties:
-    def __init__(self, x, y, u, v, w, h, sprite=(0, 0, 0, 16, 22)):
+    def __init__(self, x, y, u, v, w, h, sprite=0):
         self.__x = x
         self.__y = y
         self.__u = u
@@ -11,9 +9,6 @@ class Properties:
         self.__w = w
         self.__h = h
         self.sprite = sprite
-
-    # Resto del código de la clase Properties
-
 
     @property
     def x(self):
@@ -99,24 +94,17 @@ class Properties:
 
 class Player(Properties):
     def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
-        self.sprite = (0, 0, 0, 16, 22)
+        super().__init__(x, y, 0, 0, 16, 22)
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
 
     def move(self, direction: str, size: int):
-        xSize = self.sprite[3]
+        xSize = self.w
         if direction.lower() == 'right' and self.x < size - xSize:
             self.x = self.x + 4
         elif direction.lower() == 'left' and self.x > 0:
             self.x -= 4
-        elif self.x == 0 and direction.lower() == 'left':
-            self.x = 255
-        elif self.x == size - xSize and direction.lower() == 'right':
-            self.x = 0
-        
 
     def jump(self):
         if not self.jumping:
@@ -137,46 +125,74 @@ class Player(Properties):
         else:
             self.jumping = True  # Permite que Mario siga saltando mientras esté en el aire
 
-
     def ground(self):
         return self.y == self.groundHeight()
 
     def groundHeight(self):
         return 218
 
+class Enemy(Properties):
+    def __init__(self, x, y, speed):
+        super().__init__(x, y, 0, 10, 16, 22)
+        self.speed = speed + 2
+
+    def move(self):
+        self.x += self.speed
+        if self.x > pyxel.width:
+            self.x = -16  # Resetear la posición cuando el enemigo sale de la pantalla
+
 from map import Map
 
 class App:
-    def __init__(self, w: int, h: int):
+    def __init__(self, w, h):
         self.width = w
         self.height = h
 
-        pyxel.init(self.width, self.height, title="Mario Bros. Classic")
+        pyxel.init(self.width, self.height)
         pyxel.load("assets/ey.pyxres")
 
         self.plane = Player(self.width // 2, 218)
         self.mapa = Map()
+
+        # Crea un enemigo con la imagen de Mario y velocidad 1
+        self.enemy = Enemy(20, 218, speed=1)
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
         elif pyxel.btnp(pyxel.KEY_SPACE):
             self.plane.jump()
-        elif pyxel.btn(pyxel.KEY_RIGHT):
-            self.plane.move('right', self.width)
-        elif pyxel.btn(pyxel.KEY_LEFT):
-            self.plane.move('left', self.width)
 
-        # Update the plane's state
+        # Actualiza el estado del jugador
         self.plane.update()
+
+        # Actualiza el estado del enemigo
+        self.enemy.move()
+
+        # Comprueba la colisión entre el jugador y el enemigo
+        if self.check_collision(self.plane, self.enemy):
+            # Si hay colisión, detener el juego o realizar alguna acción
+            print("Colisión! Mario tocó al enemigo.")
+            pyxel.quit()
+
+    def check_collision(self, obj1, obj2):
+        return (
+            obj1.x < obj2.x + obj2.w and
+            obj1.x + obj1.w > obj2.x and
+            obj1.y < obj2.y + obj2.h and
+            obj1.y + obj1.h > obj2.y
+        )
 
     def draw(self):
         pyxel.cls(0)
         self.mapa.draw()
 
-        # Dibujar el jugador
+        # Dibuja al enemigo
+        pyxel.blt(self.enemy.x, self.enemy.y, 0, 0, 10, 16, 22)
+
+        # Dibuja al jugador
         pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
 
-# Ejecutar la aplicación
+# Ejecuta la aplicación
 app = App(255, 255)
 pyxel.run(app.update, app.draw)
