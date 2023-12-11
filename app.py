@@ -26,8 +26,15 @@ class App:
             self.plane.move('right', self.width)
         elif pyxel.btn(pyxel.KEY_LEFT):
             self.plane.move('left', self.width)
+        elif pyxel.btn(pyxel.KEY_A):
+            self.plane.move('left', self.width)
+        elif pyxel.btn(pyxel.KEY_D):
+            self.plane.move('right', self.width)
+        elif pyxel.btn(pyxel.KEY_W):
+            self.plane.jump()
         
         self.shellcreeper.update()
+        self.sidestepper.update()
         # Update the plane's state
         self.plane.update()
 

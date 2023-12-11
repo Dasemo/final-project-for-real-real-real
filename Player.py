@@ -47,3 +47,8 @@ class Player(Properties):
 
     def groundHeight(self):
         return 218
+    def lives(self):
+        if self.lives == 0:
+            return False
+        else:
+            return True
