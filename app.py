@@ -11,7 +11,7 @@ class App:
         pyxel.load("assets/ey.pyxres")
 
         self.plane = Player(self.width // 2, 218)
-        self.shellcreeper = Shellcreeper(255, 255, False)
+        self.shellcreeper = Shellcreeper(80, 60, 1)
         self.mapa = Map()
 
     def update(self):
@@ -23,14 +23,15 @@ class App:
             self.plane.move('right', self.width)
         elif pyxel.btn(pyxel.KEY_LEFT):
             self.plane.move('left', self.width)
-
+        
+        self.shellcreeper.update()
         # Update the plane's state
         self.plane.update()
 
     def draw(self):
         pyxel.cls(0)
         self.mapa.draw()
-
+        self.shellcreeper.draw()
         # Dibujar el jugador
         pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
-        pyxel.blt(self.shellcreeper.x, self.shellcreeper.y, 0, 16, 10, 16, 22)
+       
