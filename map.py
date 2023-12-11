@@ -1,5 +1,6 @@
 # Clase para el mapa
 import pyxel
+
 class Map:
     def __init__(self):
         self.drawing = [

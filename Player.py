@@ -9,6 +9,13 @@ class Player(Properties):
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
+    
+    def detect_collision(self, x, y, w, h):
+        if self.y == 184 and 0 < self.x < 88:
+            return True
+        elif self.y == 184 and 159 < self.x < 255:
+            return True
+
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]

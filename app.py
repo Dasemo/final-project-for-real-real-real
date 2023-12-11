@@ -8,7 +8,7 @@ class App:
     def __init__(self, w: int, h: int):
         self.width = w
         self.height = h
-
+        
         pyxel.init(self.width, self.height, title="Mario Bros. Classic")
         pyxel.load("assets/ey.pyxres")
 
