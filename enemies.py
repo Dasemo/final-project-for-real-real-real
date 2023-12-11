@@ -20,7 +20,7 @@ class Shellcreeper(Properties):
             self.x = 0
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 1, 32, self.width * self.direction - 1, self.height, 0)
+        pyxel.blt(self.x, self.y, 0, 0, 32, self.width * self.direction, self.height, 0)
 
 
 class Sidestepper(Properties):
