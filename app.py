@@ -2,6 +2,8 @@ import pyxel
 from Player import Player
 from map import Map
 from enemies import Shellcreeper
+from enemies import Sidestepper
+
 class App:
     def __init__(self, w: int, h: int):
         self.width = w
@@ -12,6 +14,7 @@ class App:
 
         self.plane = Player(self.width // 2, 218)
         self.shellcreeper = Shellcreeper(80, 60, 1)
+        self.sidestepper = Sidestepper(100, 60, 1)
         self.mapa = Map()
 
     def update(self):
@@ -32,6 +35,7 @@ class App:
         pyxel.cls(0)
         self.mapa.draw()
         self.shellcreeper.draw()
+        self.sidestepper.draw()
         # Dibujar el jugador
         pyxel.blt(self.plane.x, self.plane.y, 0, 0, 10, 16, 22)
        

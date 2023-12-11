@@ -1,3 +1,4 @@
+import pyxel
 from properties import Properties
 
 class Player(Properties):

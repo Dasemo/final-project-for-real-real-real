@@ -162,6 +162,12 @@ class App:
         pyxel.cls(0)
         self.map.draw()
         pyxel.blt(self.player.x, self.player.y, 0, 0, 10, 16, 22)
+    
+    def wallhacks(self):
+        if check_collision() == True:
+            self.y = self.y - 8
+        else:
+            self.y = self.y
 
 # Run the application
 app = App()
