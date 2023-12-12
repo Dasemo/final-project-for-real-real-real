@@ -42,10 +42,7 @@ class Player(Properties):
         else:
             self.jumping = True  # Permite que Mario siga saltando mientras esté en el aire
         
-        if self.detect_collision():
-            self.y = self.groundHeight()
-            self.vel_y = 0
-            self.jumping = False
+
 
 
     def ground(self):

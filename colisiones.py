@@ -2,7 +2,7 @@ import pyxel
 player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
 suelo = {"x": 0,"y": 218,"w": 255,"h": 1}
 rampa = {"x": 0,"y": 184-22,"w": 88,"h": 8}
-rampa2 = {"x": 0,"y": 136-22,"w": 24,"h": 8}
+rampa2 = {"x": 0,"y": 136-22,"w": 32,"h": 8}
 
 
 ground = suelo['y']
