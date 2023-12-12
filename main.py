@@ -1,8 +1,8 @@
 from app import App
 import pyxel 
-# We create the board and that's all
+
 app = App(255, 255)
-app.start_screen = True 
+app.start_screen = True # This function creates the startscreen and 
 
 def update():
     if app.start_screen:
