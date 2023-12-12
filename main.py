@@ -1,4 +1,5 @@
 from app import App
+from app import StartScreen
 import pyxel 
 
 app = App(255, 255)
@@ -20,3 +21,4 @@ def draw():
         app.draw()
         
 pyxel.run(update, draw)
+pyxel.run(app.update, app.draw)
