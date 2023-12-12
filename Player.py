@@ -1,7 +1,6 @@
-import pyxel
-from properties import Properties
 
-player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
+from properties import Properties
+from collisions import player_properties
 
 class Player(Properties):
     def __init__(self, x: int, y: int):
@@ -31,16 +30,15 @@ class Player(Properties):
         
         
     def update(self, newground: int):
+        
         player_properties['y'] += self.vel_y
         if player_properties['y'] != newground:
             self.vel_y += 0.5
             self.jumping = True
         if (abs(player_properties['y'] - newground) < 7):
-            print(newground,player_properties['y'])
             self.vel_y = 0
             self.jumping = False
             player_properties['y'] = newground 
-        
 
 
     def lives(self):
