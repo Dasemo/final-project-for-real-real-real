@@ -1,5 +1,4 @@
 from app import App
-from app import StartScreen
 import pyxel 
 
 app = App(255, 255)

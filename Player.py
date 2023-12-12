@@ -1,10 +1,21 @@
 import pyxel
 from properties import Properties
 
+player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
+suelo = {"x": 0,"y": 218,"w": 255,"h": 1}
+ramp1_l = {"x": 0,"y": 184-22,"w": 88,"h": 8}
+ramp1_r = {"x": 167, "y": 184-22, "w": 88, "h": 8}
+ramp2_l = {"x": 0,"y": 136-22,"w": 32, "h": 8}
+ramp2_r = {"x": 223, "y": 136-22, "w": 32, "h": 8}
+ramp3 = {"x": 64, "y": 120-22, "w":128, "h": 8}
+ramp4_l = {"x": 0, "y": 72-22, "w": 88, "h": 8}
+ramp4_r = {"x": 167, "y": 184-22, "w": 88, "h": 8}
+
+ground = suelo['y']
 class Player(Properties):
     def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
+        player_properties["x"] = x
+        player_properties['y'] = y
         self.sprite = (0, 0, 0, 16, 22)
         self.lives = 3
         self.vel_y = 0
@@ -13,46 +24,34 @@ class Player(Properties):
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]
+        if direction.lower() == 'right' and player_properties["x"] < size - xSize:
+            player_properties["x"] += 4
+        elif direction.lower() == 'left' and player_properties["x"] > 0:
+            player_properties["x"] -= 4
+        elif player_properties["x"] == 0 and direction.lower() == 'left':
+            player_properties["x"] = 255
+        elif player_properties["x"] == size - xSize and direction.lower() == 'right':
+            player_properties["x"] = 0
 
-        if direction.lower() == 'right' and self.x < size - xSize:
-            self.x = self.x + 4
-        elif direction.lower() == 'left' and self.x > 0:
-            self.x -= 4
-        elif self.x == 0 and direction.lower() == 'left':
-            self.x = 255
-        elif self.x == size - xSize and direction.lower() == 'right':
-            self.x = 0
-        
     def jump(self):
-        if not self.jumping:
+        if self.jumping == False:
             self.vel_y = -8
             self.jumping = True
         
         
-    def update(self):
-        if not self.ground():
+    def update(self, newground: int):
+        
+        player_properties['y'] += self.vel_y
+        if player_properties['y'] != newground:
             self.vel_y += 0.5
-
-        self.y += self.vel_y
-        # Ajusta la lógica de colisión para que Mario no se hunda por debajo del suelo
-        if self.ground():
-            self.y = min(self.y, self.groundHeight())
+            self.jumping = True
+        if (abs(player_properties['y'] - newground) < 7):
+            print(newground,player_properties['y'])
             self.vel_y = 0
             self.jumping = False
-        else:
-            self.jumping = True  # Permite que Mario siga saltando mientras esté en el aire
-<<<<<<< HEAD
-        
+            player_properties['y'] = newground 
 
 
-=======
->>>>>>> 0a1a68f141355bfc146702bf3b2f930904d5f6e8
-
-    def ground(self):
-        return self.y == self.groundHeight()
-
-    def groundHeight(self):
-        return 218
     def lives(self):
         if self.lives == 0:
             return False
