@@ -73,6 +73,52 @@ class Player(Properties):
         elif self.x == size - xSize and direction.lower() == 'right':
             self.x = 0
 
+    def detect_collision(self, map_elements):
+        for element in map_elements:
+            collision, direction = self.collides_with_element(element)
+            if collision:
+                return True, direction
+        return False, ''
+
+    def collides_with_element(self, element):
+        player_right = self.x + self.w
+        player_bottom = self.y + self.h
+        element_right = element[0] + element[3]
+        element_bottom = element[1] + element[4]
+
+        if (
+            self.x < element_right and
+            player_right > element[0] and
+            self.y < element_bottom and
+            player_bottom > element[1]
+        ):
+            overlap_x = min(player_right, element_right) - max(self.x, element[0])
+            overlap_y = min(player_bottom, element_bottom) - max(self.y, element[1])
+
+            if overlap_x < overlap_y:
+                return True, 'horizontal' if self.x < element[0] else 'horizontal_inv'
+            else:
+                return True, 'vertical' if self.y < element[1] else 'vertical_inv'
+
+        return False, ''
+
+    def push_back(self, map_elements):
+        collision, direction = self.detect_collision(map_elements)
+        if collision:
+            if direction == 'horizontal':
+                sign = -1 if self.dx > 0 else 1
+                while collision:
+                    self.dx += sign
+                    collision, direction = self.detect_collision(map_elements)
+                self.jumping = False
+            else:
+                sign = -1 if self.dy > 0 else 1
+                if sign == 1:
+                    self.jumping = True
+                while collision:
+                    self.dy += sign
+                    collision, direction = self.detect_collision(map_elements)
+
     def jump(self):
         if not self.jumping:
             self.vel_y = -8
@@ -84,13 +130,6 @@ class Player(Properties):
 
         self.y += self.vel_y
 
-        for element in map_elements:
-            element_properties = CollisionObject(element[0], element[1], element[4], element[5])
-            if check_collision(self, element_properties):
-                self.y = min(self.y, element_properties.y - self.h)
-                self.vel_y = 0
-                self.jumping = False
-
         if self.ground():
             self.y = min(self.y, self.groundHeight())
             self.vel_y = 0
@@ -98,29 +137,21 @@ class Player(Properties):
         else:
             self.jumping = True
 
+        self.push_back(map_elements)
+
     def ground(self):
         return self.y == self.groundHeight()
 
     def groundHeight(self):
         return 218
 
-class Enemy(Properties):
-    def __init__(self, x, y, speed):
-        super().__init__(x, y, 0, 10, 16, 22)
-        self.speed = speed
-
-    def move(self):
-        self.x += self.speed
-        if self.x > 255:
-            self.x = -16
-
-def check_collision(entity1, entity2):
-    left1, right1, top1, bottom1 = entity1.x, entity1.x + entity1.w, entity1.y, entity1.y + entity1.h
-    left2, right2, top2, bottom2 = entity2.x, entity2.x + entity2.w, entity2.y, entity2.y + entity2.h
-
-    return not (right1 < left2 or left1 > right2 or bottom1 < top2 or top1 > bottom2)
 
 from map import Map
+import pyxel
+
+from map import Map
+import pyxel
+
 class App:
     _initialized = False
 
@@ -134,7 +165,6 @@ class App:
             App._initialized = True
 
         self.player = Player(self.width // 2, 218)
-        self.enemy = Enemy(20, 218, speed=1)
         self.map = Map()
 
     def update(self):
@@ -148,21 +178,23 @@ class App:
             self.player.move('left', self.width)
 
         self.player.update(self.map.drawing)
-        self.enemy.move()
-
-        if check_collision(self.player, self.enemy):
-            print("Collision! Mario touched the enemy.")
 
         for element in self.map.drawing:
-            element_properties = CollisionObject(element[0], element[1], element[4], element[5])
-            if check_collision(self.player, element_properties):
-                print(f"Collision! Mario touched an element at ({element[0]}, {element[1]})")
+            pyxel.blt(element[0], element[1], element[2], element[3], element[4], element[5], element[6])
+
+        pyxel.blt(self.player.x, self.player.y, 0, 0, 10, 16, 22)
 
     def draw(self):
         pyxel.cls(0)
-        self.map.draw()
+
+        for element in self.map.drawing:
+            pyxel.blt(element[0], element[1], element[2], element[3], element[4], element[5], element[6])
+
         pyxel.blt(self.player.x, self.player.y, 0, 0, 10, 16, 22)
+
 
 # Run the application
 app = App()
 pyxel.run(app.update, app.draw)
+
+

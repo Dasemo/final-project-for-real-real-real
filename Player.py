@@ -25,7 +25,8 @@ class Player(Properties):
         if not self.jumping:
             self.vel_y = -8
             self.jumping = True
-
+        
+        
     def update(self):
         if not self.ground():
             self.vel_y += 0.5
