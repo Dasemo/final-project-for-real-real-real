@@ -1,8 +1,14 @@
 import pyxel
 player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
 suelo = {"x": 0,"y": 218,"w": 255,"h": 1}
-rampa = {"x": 0,"y": 184-22,"w": 88,"h": 8}
-rampa2 = {"x": 0,"y": 136-22,"w": 24,"h": 8}
+ramp1_l = {"x": 0,"y": 184-22,"w": 88,"h": 8}
+ramp1_r = {"x": 167, "y": 184-22, "w": 88, "h": 8}
+ramp2_l = {"x": 0,"y": 136-22,"w": 32, "h": 8}
+ramp2_r = {"x": 223, "y": 136-22, "w": 32, "h": 8}
+ramp3 = {"x": 64, "y": 120-22, "w":128, "h": 8}
+ramp4_l = {"x": 0, "y": 72-22, "w": 88, "h": 8}
+ramp4_r = {"x": 167, "y": 72-22, "w": 88, "h": 8}
+
 
 
 ground = suelo['y']
@@ -190,13 +196,27 @@ class App:
             player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
             ground = suelo['y']                  
             #print(ground)
-        if is_collision(player_properties, rampa):
+        if is_collision(player_properties, ramp1_l):
             player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
-            ground = rampa['y']
-        if is_collision(player_properties, rampa2):
+            ground = ramp1_l['y']
+        if is_collision(player_properties, ramp1_r):
             player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
-            ground = rampa2['y']
-            #print(ground)
+            ground = ramp1_r['y']
+        if is_collision(player_properties, ramp2_l):
+            player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
+            ground = ramp2_l['y']
+        if is_collision(player_properties, ramp2_r):
+            player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
+            ground = ramp2_r['y']
+        if is_collision(player_properties, ramp3):
+            player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
+            ground = ramp3['y']
+        if is_collision(player_properties, ramp4_l):
+            player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
+            ground = ramp4_l['y']
+        if is_collision(player_properties, ramp4_r):
+            player_properties["x"], player_properties["y"] = prev_player_x, prev_player_y
+            ground = ramp4_r['y']
         # Update the plane's state
         #print(ground)
         self.plane.update(ground)

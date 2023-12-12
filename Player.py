@@ -2,16 +2,7 @@ import pyxel
 from properties import Properties
 
 player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
-suelo = {"x": 0,"y": 218,"w": 255,"h": 1}
-ramp1_l = {"x": 0,"y": 184-22,"w": 88,"h": 8}
-ramp1_r = {"x": 167, "y": 184-22, "w": 88, "h": 8}
-ramp2_l = {"x": 0,"y": 136-22,"w": 32, "h": 8}
-ramp2_r = {"x": 223, "y": 136-22, "w": 32, "h": 8}
-ramp3 = {"x": 64, "y": 120-22, "w":128, "h": 8}
-ramp4_l = {"x": 0, "y": 72-22, "w": 88, "h": 8}
-ramp4_r = {"x": 167, "y": 184-22, "w": 88, "h": 8}
 
-ground = suelo['y']
 class Player(Properties):
     def __init__(self, x: int, y: int):
         player_properties["x"] = x
