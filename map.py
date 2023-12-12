@@ -1,5 +1,6 @@
 # Clase para el mapa
 import pyxel
+
 class Map:
     def __init__(self):
         self.drawing = [
@@ -30,11 +31,11 @@ class Map:
             pyxel.blt(120, 184, self.drawing[3][2], self.drawing[3][3], self.drawing[3][4], self.drawing[3][5], self.drawing[3][6])  #POW
             a = 0
             for xd in range(4):
-                pyxel.blt(a, self.drawing[1][1] + 136, self.drawing[1][2], self.drawing[1][3], self.drawing[1][4], self.drawing[1][5], self.drawing[1][6])#primer nivel izquierda
+                pyxel.blt(a, self.drawing[1][1] + 136, self.drawing[1][2], self.drawing[1][3], self.drawing[1][4], self.drawing[1][5], self.drawing[1][6]) # segundo nivel izquierda
                 a = a + 8
             a = 255
             for xd in range(5):
-                pyxel.blt(a, self.drawing[1][1] + 136, self.drawing[1][2], self.drawing[1][3], self.drawing[1][4], self.drawing[1][5], self.drawing[1][6])#primer nivel izquierda
+                pyxel.blt(a, self.drawing[1][1] + 136, self.drawing[1][2], self.drawing[1][3], self.drawing[1][4], self.drawing[1][5], self.drawing[1][6]) #segundo nivel izquierda
                 a = a - 8
             a = 0
             for xd in range(11):
@@ -58,6 +59,4 @@ class Map:
             pyxel.blt(self.drawing[5][0] + 255 - 34, self.drawing[5][1] + 32, self.drawing[5][2], self.drawing[5][3], self.drawing[5][4], self.drawing[5][5], self.drawing[5][6])#Tuberia3 izq
             pyxel.blt(self.drawing[2][0] + 255 - 50, self.drawing[2][1] + 32, self.drawing[2][2], self.drawing[2][3], self.drawing[2][4], self.drawing[2][5], self.drawing[2][6])#Tuberia1(2) izq
             pyxel.blt(self.drawing[2][0] + 239, self.drawing[2][1] + 47, self.drawing[2][2], self.drawing[2][3], self.drawing[2][4], self.drawing[2][5], self.drawing[2][6])#Tuberia1 izq
-            
-            
             

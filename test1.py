@@ -191,6 +191,12 @@ class App:
             pyxel.blt(element[0], element[1], element[2], element[3], element[4], element[5], element[6])
 
         pyxel.blt(self.player.x, self.player.y, 0, 0, 10, 16, 22)
+    
+    def wallhacks(self):
+        if check_collision() == True:
+            self.y = self.y - 8
+        else:
+            self.y = self.y
 
 
 # Run the application

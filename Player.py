@@ -1,3 +1,4 @@
+import pyxel
 from properties import Properties
 
 class Player(Properties):
@@ -8,6 +9,22 @@ class Player(Properties):
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
+    
+    def detect_collision(self):
+        if self.y == 184 and 0 < self.x < 88:  # Collision detector for the first row of blocks in letfside
+            return True
+        elif self.y == 184 and 159 < self.x < 255:  # Collision detector for the first row of blocks in rightside
+            return True
+        elif self.y == 136 and 0 < self.x < 12:  # Collision detector for the second row of blocks in leftside
+            return True
+        elif self.y == 136 and 215 < self.x < 255:  # Collision detector for the second row of blocks in rightside
+            return True
+        elif self.y == 120 and 64 < self.x < 192:  # Collision detector for the third row of blocks
+            return True
+        elif self.y == 72 and 0 < self.x < 88:  # Collision detector for the fourth row of blocks in leftside
+            return True
+        elif self.y == 72 and 159 < self.x < 255:  # Collision detector for the fourth row of blocks in rightside
+            return True
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]
@@ -32,7 +49,6 @@ class Player(Properties):
             self.vel_y += 0.5
 
         self.y += self.vel_y
-
         # Ajusta la lógica de colisión para que Mario no se hunda por debajo del suelo
         if self.ground():
             self.y = min(self.y, self.groundHeight())
@@ -40,6 +56,11 @@ class Player(Properties):
             self.jumping = False
         else:
             self.jumping = True  # Permite que Mario siga saltando mientras esté en el aire
+        
+        if self.detect_collision():
+            self.y = self.groundHeight()
+            self.vel_y = 0
+            self.jumping = False
 
 
     def ground(self):
@@ -47,3 +68,8 @@ class Player(Properties):
 
     def groundHeight(self):
         return 218
+    def lives(self):
+        if self.lives == 0:
+            return False
+        else:
+            return True
