@@ -92,10 +92,7 @@ class App:
         self.sidestepper.draw()
         self.fighter.draw()
         # Dibujar el jugador
-        pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22, 0)
-        pyxel.blt(60, 20, 0, 8, 0, 8, 8, 0)
-        pyxel.blt(70, 20, 0, 8, 0, 8, 8, 0)
-        pyxel.blt(80, 20, 0, 8, 0, 8, 8, 0)
+        pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
     
 def is_collision(obj1, obj2):
 # Rectangle collision detection

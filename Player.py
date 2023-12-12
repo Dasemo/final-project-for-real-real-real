@@ -40,7 +40,6 @@ class Player(Properties):
         
         
     def update(self, newground: int):
-        
         player_properties['y'] += self.vel_y
         if player_properties['y'] != newground:
             self.vel_y += 0.5
@@ -50,6 +49,7 @@ class Player(Properties):
             self.vel_y = 0
             self.jumping = False
             player_properties['y'] = newground 
+        
 
 
     def lives(self):
