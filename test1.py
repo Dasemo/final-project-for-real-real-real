@@ -119,6 +119,7 @@ class Player(Properties):
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
+        self.direction = 1
 
 
     def move(self, direction: str, size: int):
@@ -136,6 +137,7 @@ class Player(Properties):
         if self.jumping == False:
             self.vel_y = -8
             self.jumping = True
+            self.direction = 0
         
         
     def update(self, newground: int):
@@ -147,7 +149,8 @@ class Player(Properties):
         if (abs(player_properties['y'] - newground) < 7):
             self.vel_y = 0
             self.jumping = False
-            player_properties['y'] = newground 
+            player_properties['y'] = newground
+             
 
 
     def lives(self):
@@ -163,33 +166,45 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
     def __init__(self, x, y, speed):
         self.x = x
         self.y = y
-        self.speed = speed
         self.direction = 1  # 1 for right, -1 for left
         self.sprite_x = 0
         self.sprite_y = 32
         self.vel_y = 0
-
+        self.speed = 1
     def update(self):
-        # Sheelcreeper movement
-        
         # Update frame for walking animation
         self.sprite_x = (self.sprite_x + 16) % 32
         self.x += self.speed * self.direction
 
         if self.x < 0:
             self.x == 255
+        if self.x >= 230.0 and self.y >= 220.0:
+            self.x = 50  
+            self.y = 32
         if self.x > pyxel.width:
             self.x = 0   
-            self.x += self.speed * self.direction
-        print(self.y)
+            
+
+
+        print('y', self.y)
+        print('x',self.x)
         
     def fall(self):
-        if 88 <= self.x <= 1000 and 59 <= self.y <= 106 :
+        if 88 <= self.x <= 1000 and 57 <= self.y <= 106 :
             self.vel_y = 2.5
             self.y += self.vel_y
-        if 192 <= self.x <= 1000 and 106 <= self.y <= 120:
+        if 192 <= self.x <= 1000 and 106 <= self.y <= 169:
             self.vel_y = 2.5
             self.y += self.vel_y
+        if 88 <= self.x <= 150 and 169 <= self.y <= 226:
+            self.vel_y = 2.5
+            self.y += self.vel_y
+        if 49 <= self.x <= 80 and 32 <= self.y <= 57.5:
+            self.vel_y = 2.5
+            self.y += self.vel_y
+
+
+        
             
         
 class Sidestepper(Properties):
@@ -249,7 +264,7 @@ class App:
         pyxel.load("assets/ey.pyxres")
 
         self.plane = Player(self.width // 2, 218)
-        self.shellcreeper = Shellcreeper(16, 59, 1)
+        self.shellcreeper = Shellcreeper(50, 33, 1)
         self.sidestepper = Sidestepper(100, 60, 1)
         self.fighter = Fighter(120, 59, 1)
         self.map = Map()
@@ -262,16 +277,22 @@ class App:
             pyxel.quit()
         elif pyxel.btnp(pyxel.KEY_SPACE):
             self.plane.jump()
+            self.direction = 0
         elif pyxel.btn(pyxel.KEY_W):
             self.plane.jump()
+            self.direction = 0
         elif pyxel.btn(pyxel.KEY_RIGHT):
             self.plane.move('right', self.width)
+            self.plane.direction = 1
         elif pyxel.btn(pyxel.KEY_LEFT):
             self.plane.move('left', self.width)
+            self.plane.direction = -1
         elif pyxel.btn(pyxel.KEY_A):
             self.plane.move('left', self.width)
+            self.plane.direction = -1
         elif pyxel.btn(pyxel.KEY_D):
             self.plane.move('right', self.width)
+            self.plane.direction = 1
             
         prev_player_x, prev_player_y = player_properties["x"], player_properties["y"]
         colliders = [player_properties,]
@@ -318,7 +339,14 @@ class App:
         pyxel.blt(self.shellcreeper.x, self.shellcreeper.y - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
         self.sidestepper.draw()
         self.fighter.draw()
-        pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
+        if self.plane.direction == 1:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
+        elif self.plane.direction == -1:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22)
+        elif self.plane.direction == 0:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22)
+        
+        
         
 def is_collision(character, platform):
     # Rectangle collision detection

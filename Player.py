@@ -10,7 +10,7 @@ class Player(Properties):
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
-
+        self.direction = 1
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]
