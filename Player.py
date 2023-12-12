@@ -13,6 +13,7 @@ class Player(Properties):
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]
+
         if direction.lower() == 'right' and self.x < size - xSize:
             self.x = self.x + 4
         elif direction.lower() == 'left' and self.x > 0:
@@ -22,7 +23,6 @@ class Player(Properties):
         elif self.x == size - xSize and direction.lower() == 'right':
             self.x = 0
         
-
     def jump(self):
         if not self.jumping:
             self.vel_y = -8
