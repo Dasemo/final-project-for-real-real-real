@@ -1,3 +1,5 @@
+#This file was created to store all the elements of the map and of the game in order to make them collide
+
 player_properties = {"x": 218,"y": 218,"w": 8,"h": 16,}
 shellcreeper_properties = {"x": 16,"y": 59,"w": 8,"h": 16}
 suelo = {"x": 0,"y": 218,"w": 255,"h": 1}

@@ -13,11 +13,14 @@ class Shellcreeper(Properties): # This class defines all the movements of the sh
         self.counter = 1
         
     def update(self):   #Controls the sellcreepers animations and how he moves around the map
+        
+        #Controls the animation
         self.counter = self.counter + 1
         if self.counter % 4:
             self.sprite_x = (self.sprite_x + 16) % 32
+        
+        #Controls how he moves around the map
         shellcreeper_properties['x'] += self.speed * self.direction
-
         if shellcreeper_properties['x'] < 0:
             shellcreeper_properties['x'] == 255
         if shellcreeper_properties['x'] >= 230.0 and shellcreeper_properties['y'] >= 220.0:
@@ -29,7 +32,7 @@ class Shellcreeper(Properties): # This class defines all the movements of the sh
 
 
 
-    def fall(self):
+    def fall(self): #This function controls how he moves around the map too
         if 88 <= shellcreeper_properties['x'] <= 1000 and 57 <= shellcreeper_properties['y'] <= 105 :
             self.vel_y = 2.5
             shellcreeper_properties['y'] += self.vel_y
@@ -54,10 +57,10 @@ class Sidestepper(Properties):
         self.sprite_y = 48
 
     def update(self):
-        # Sidestepper movement.
+        # Sidestepper movement
         self.x += self.speed * self.direction
 
-        # Update frame for walking animation
+        # Sidestepper animation
         self.sprite_x = (self.sprite_x + 16) % 32
 
         if self.x < 0:
@@ -65,9 +68,6 @@ class Sidestepper(Properties):
         if self.x > pyxel.width:
             self.x = 0
 
-    def draw(self):
-        # Function for the drawing of the sprite.
-        pyxel.blt(self.x, self.y - 3, 0, self.sprite_x, self.sprite_y, 16 * self.direction, 16, 0)
 
 
 class Fighter(Properties):
@@ -80,7 +80,7 @@ class Fighter(Properties):
         self.height = 16
 
     def update(self):
-        # Fighter fly movement.
+        # Fighter fly movement
         self.x += self.speed * self.direction
 
         if self.x < 0:
@@ -88,6 +88,3 @@ class Fighter(Properties):
         if self.x > pyxel.width:
             self.x = 0
 
-    def draw(self):
-        # Function for the drawing of the sprite.
-        pyxel.blt(self.x, self.y - 3, 0, 0, 64, self.width * self.direction, self.height, 0)
