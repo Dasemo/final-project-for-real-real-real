@@ -123,15 +123,18 @@ class Player(Properties):
 
 
     def move(self, direction: str, size: int):
+        print(player_properties['x'])
         xSize = self.sprite[3]
         if direction.lower() == 'right' and player_properties["x"] < size - xSize:
             player_properties["x"] += 4
         elif direction.lower() == 'left' and player_properties["x"] > 0:
             player_properties["x"] -= 4
-        elif player_properties["x"] == 0 and direction.lower() == 'left':
-            player_properties["x"] = 255
-        elif player_properties["x"] == size - xSize and direction.lower() == 'right':
-            player_properties["x"] = 0
+        elif player_properties['x'] <= 0:
+            player_properties['x'] = 230
+        elif player_properties['x'] >= 238:
+            player_properties['x'] = 1
+            
+        
 
     def jump(self):
         if self.jumping == False:
@@ -144,7 +147,6 @@ class Player(Properties):
             player_properties["x"] = 123
             player_properties['y'] = 0
             self.lives = self.lives - 1
-            print(self.lives)
             if self.lives == 0:
                 quit()
             
@@ -335,13 +337,13 @@ class App:
                 ground = ramp4_r['y'] 
         
         self.plane.enemyCol(shellcreeper_properties)
-        
         #print(ground)
         self.plane.update(ground)
         self.shellcreeper.update()
         self.shellcreeper.fall()
         self.sidestepper.update()
         self.fighter.update()
+
         
     def draw(self):
         pyxel.cls(0)
@@ -355,6 +357,13 @@ class App:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22, 0)
         elif self.plane.direction == 0:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22, 0)
+            
+        pyxel.blt(30, 10, 0, 4, 0, 13, 8, 0)
+        if self.plane.lives >= 2:
+            pyxel.blt(42, 10, 0, 4, 0, 13, 8, 0)
+        if self.plane.lives == 3:
+            pyxel.blt(54, 10, 0, 4, 0, 13, 8, 0)
+            
         
         
         

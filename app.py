@@ -79,26 +79,30 @@ class App:
                 ground = ramp4_r['y'] 
         
         self.plane.enemyCol(shellcreeper_properties)
-        
+        print(self.plane.lives)
         #print(ground)
         self.plane.update(ground)
         self.shellcreeper.update()
         self.shellcreeper.fall()
-        self.sidestepper.update()
-        self.fighter.update()
+
         
     def draw(self):
         pyxel.cls(0)
         self.map.draw()
         pyxel.blt(shellcreeper_properties["x"], shellcreeper_properties['y'] - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
-        self.sidestepper.draw()
-        self.fighter.draw()
         if self.plane.direction == 1:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22, 0)
         elif self.plane.direction == -1:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22, 0)
         elif self.plane.direction == 0:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22, 0)
+            
+        pyxel.blt(30, 10, 0, 4, 0, 13, 8, 0)
+        if self.plane.lives >= 2:
+            pyxel.blt(42, 10, 0, 4, 0, 13, 8, 0)
+        if self.plane.lives == 3:
+            pyxel.blt(54, 10, 0, 4, 0, 13, 8, 0)
+            
         
         
         
@@ -109,5 +113,5 @@ def is_collision(character, platform):
         and character["x"] + character["w"] > platform["x"]
         and character["y"] < platform["y"] + platform["h"]
         and character["y"] + character["h"] > platform["y"]
-    )         
+    ) 
   
