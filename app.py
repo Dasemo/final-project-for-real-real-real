@@ -13,7 +13,7 @@ class App:
         pyxel.load("assets/ey.pyxres")
 
         self.plane = Player(self.width // 2, 218)
-        self.shellcreeper = Shellcreeper(16, 59, 1)
+        self.shellcreeper = Shellcreeper(50, 33, 1)
         self.sidestepper = Sidestepper(100, 60, 1)
         self.fighter = Fighter(120, 59, 1)
         self.map = Map()
@@ -26,16 +26,22 @@ class App:
             pyxel.quit()
         elif pyxel.btnp(pyxel.KEY_SPACE):
             self.plane.jump()
+            self.direction = 0
         elif pyxel.btn(pyxel.KEY_W):
             self.plane.jump()
+            self.direction = 0
         elif pyxel.btn(pyxel.KEY_RIGHT):
             self.plane.move('right', self.width)
+            self.plane.direction = 1
         elif pyxel.btn(pyxel.KEY_LEFT):
             self.plane.move('left', self.width)
+            self.plane.direction = -1
         elif pyxel.btn(pyxel.KEY_A):
             self.plane.move('left', self.width)
+            self.plane.direction = -1
         elif pyxel.btn(pyxel.KEY_D):
             self.plane.move('right', self.width)
+            self.plane.direction = 1
             
         prev_player_x, prev_player_y = player_properties["x"], player_properties["y"]
         colliders = [player_properties,]
@@ -82,7 +88,14 @@ class App:
         pyxel.blt(self.shellcreeper.x, self.shellcreeper.y - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
         self.sidestepper.draw()
         self.fighter.draw()
-        pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
+        if self.plane.direction == 1:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
+        elif self.plane.direction == -1:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22)
+        elif self.plane.direction == 0:
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22)
+        
+        
         
 def is_collision(character, platform):
     # Rectangle collision detection
@@ -91,5 +104,4 @@ def is_collision(character, platform):
         and character["x"] + character["w"] > platform["x"]
         and character["y"] < platform["y"] + platform["h"]
         and character["y"] + character["h"] > platform["y"]
-    )         
-        
+    )   

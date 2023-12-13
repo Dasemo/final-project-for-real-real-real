@@ -35,6 +35,7 @@ class Player(Properties):
         if player_properties['y'] != newground:
             self.vel_y += 0.5
             self.jumping = True
+            print(newground)
         if (abs(player_properties['y'] - newground) < 7):
             self.vel_y = 0
             self.jumping = False

@@ -171,9 +171,13 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
         self.sprite_y = 32
         self.vel_y = 0
         self.speed = 1
+        self.counter = 1
     def update(self):
         # Update frame for walking animation
-        self.sprite_x = (self.sprite_x + 16) % 32
+        self.counter = self.counter + 1
+        print(self.counter)
+        if self.counter % 4:
+            self.sprite_x = (self.sprite_x + 16) % 32
         self.x += self.speed * self.direction
 
         if self.x < 0:
@@ -186,14 +190,12 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
             
 
 
-        print('y', self.y)
-        print('x',self.x)
-        
+
     def fall(self):
-        if 88 <= self.x <= 1000 and 57 <= self.y <= 106 :
+        if 88 <= self.x <= 1000 and 57 <= self.y <= 105 :
             self.vel_y = 2.5
             self.y += self.vel_y
-        if 192 <= self.x <= 1000 and 106 <= self.y <= 169:
+        if 192 <= self.x <= 1000 and 105 <= self.y <= 169:
             self.vel_y = 2.5
             self.y += self.vel_y
         if 88 <= self.x <= 150 and 169 <= self.y <= 226:
@@ -269,8 +271,10 @@ class App:
         self.fighter = Fighter(120, 59, 1)
         self.map = Map()
 
-
     def update(self):
+
+        
+        
         ground = suelo['y'] 
         prev_player_x, prev_player_y = player_properties["x"], player_properties["y"]
         if pyxel.btnp(pyxel.KEY_Q):
