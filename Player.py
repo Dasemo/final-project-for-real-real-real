@@ -34,7 +34,7 @@ class Player(Properties):
             self.jumping = True
             self.direction = 0
         
-    def enemyCol(self, enemy):  
+    def enemyCol(self, enemy):  #This function controls the colision of Mario with the enemies and sets Mario to the top if he is killed
         if is_collision(player_properties, shellcreeper_properties):
             player_properties["x"] = 123
             player_properties['y'] = 0
@@ -43,7 +43,7 @@ class Player(Properties):
                 quit()
             
         
-    def update(self, newground: int):
+    def update(self, newground: int):   #This function ensures the collision of Mario with the platforms 
         
         player_properties['y'] += self.vel_y
         if player_properties['y'] != newground:
@@ -54,8 +54,8 @@ class Player(Properties):
             self.jumping = False
             player_properties['y'] = newground
             
-def is_collision(character, platform):
-    # Rectangle collision detection
+def is_collision(character, platform):  #This function detects if Mario collides with something
+
     return (
         character["x"] < platform["x"] + platform["w"]
         and character["x"] + character["w"] > platform["x"]

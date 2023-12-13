@@ -12,18 +12,15 @@ class App:
         pyxel.init(self.width, self.height, title="Mario Bros. Classic")
         pyxel.load("assets/ey.pyxres")
 
-        self.plane = Player(self.width // 2, 218)
-        self.shellcreeper = Shellcreeper(50, 33, 1)
-        self.sidestepper = Sidestepper(100, 60, 1)
-        self.fighter = Fighter(120, 59, 1)
-        self.map = Map()
-        self.counter = 1
-    def update(self):
-
-        
-        
+        self.plane = Player(self.width // 2, 218)   #Creates Mario
+        self.shellcreeper = Shellcreeper(50, 33, 1) #Creates an enemy
+        self.map = Map()    #Imports the map
+    def update(self):       
+        #These are created to ensure the collision works
         ground = suelo['y'] 
         prev_player_x, prev_player_y = player_properties["x"], player_properties["y"]
+        
+        #These conditions ensure what keys are used for each movement
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
         elif pyxel.btnp(pyxel.KEY_SPACE):
@@ -44,15 +41,16 @@ class App:
         elif pyxel.btn(pyxel.KEY_D):
             self.plane.move('right', self.width)
             self.plane.direction = 1
-            
+
+        #These are created to ensure the collision works
         prev_player_x, prev_player_y = player_properties["x"], player_properties["y"]
-        colliders = [player_properties,]
+        colliders = [player_properties]
         
+        #This loop and conditions are created for Mario to collide with the Map
         for i in range(1):    
             if is_collision(colliders[i], suelo):
                 colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
                 ground = suelo['y']                  
-                #print(ground)
             if is_collision(colliders[i], ramp1_l):
                 colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
                 ground = ramp1_l['y']
@@ -80,28 +78,22 @@ class App:
             if is_collision(colliders[i], pow):
                 colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
                 ground = pow['y'] 
-        
+                
+        #Controls Mario's collision with the enemy
         self.plane.enemyCol(shellcreeper_properties)
-        #print(ground)
+        #Controls Mario's collision with the platforms
         self.plane.update(ground)
-        print(self.counter)
-        self.counter = self.counter + 1
-        if self.counter >= 1:
-            self.shellcreeper.update()
-            self.shellcreeper.fall()
-        if self.counter >= 20:
-            self.shellcreeper.update()
-            self.shellcreeper.fall()
-        self.sidestepper.update()
-        self.fighter.update()
+        #Controls shellcreepers' physics
+        self.shellcreeper.update()
+        self.shellcreeper.fall()
 
         
-    def draw(self):
+    def draw(self): #This function 'draws' the characters of the game
         pyxel.cls(0)
         self.map.draw()
-        pyxel.blt(shellcreeper_properties["x"], shellcreeper_properties['y'] - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
-        self.sidestepper.draw()
-        self.fighter.draw()
+        pyxel.blt(shellcreeper_properties["x"], shellcreeper_properties['y'] - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0) #Shellcreeperç
+        
+        #Mario' animations
         if self.plane.direction == 1:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22, 0)
         elif self.plane.direction == -1:
@@ -109,6 +101,7 @@ class App:
         elif self.plane.direction == 0:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22, 0)
             
+        #Mario's lives
         pyxel.blt(30, 10, 0, 4, 0, 13, 8, 0)
         if self.plane.lives >= 2:
             pyxel.blt(42, 10, 0, 4, 0, 13, 8, 0)
@@ -118,8 +111,7 @@ class App:
         
         
         
-def is_collision(character, platform):
-    # Rectangle collision detection
+def is_collision(character, platform):  #This function detects the colision
     return (
         character["x"] < platform["x"] + platform["w"]
         and character["x"] + character["w"] > platform["x"]

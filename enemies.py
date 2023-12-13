@@ -1,7 +1,7 @@
 import pyxel
 from collisions import shellcreeper_properties
 from properties import Properties
-class Shellcreeper(Properties): # This class defines all the movements for the shellcreeper and its behavior in the game. 
+class Shellcreeper(Properties): # This class defines all the movements of the shellcreeper and its behavior in the game
     def __init__(self, x, y, speed):
         shellcreeper_properties['x'] = x
         shellcreeper_properties['y'] = y
@@ -11,8 +11,8 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
         self.vel_y = 0
         self.speed = .7
         self.counter = 1
-    def update(self):
-        # Update frame for walking animation
+        
+    def update(self):   #Controls the sellcreepers animations and how he moves around the map
         self.counter = self.counter + 1
         if self.counter % 4:
             self.sprite_x = (self.sprite_x + 16) % 32
