@@ -1,5 +1,3 @@
-
-
 from properties import Properties
 from collisions import player_properties, shellcreeper_properties
 
