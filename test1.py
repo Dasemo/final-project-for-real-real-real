@@ -115,7 +115,7 @@ class Player(Properties):
     def __init__(self, x: int, y: int):
         player_properties["x"] = x
         player_properties['y'] = y
-        self.sprite = (0, 0, 0, 16, 22)
+        self.sprite = (0, 0, 0, 16, 22, 0)
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
@@ -139,6 +139,15 @@ class Player(Properties):
             self.jumping = True
             self.direction = 0
         
+    def enemyCol(self, enemy):
+        if is_collision(player_properties, shellcreeper_properties):
+            player_properties["x"] = 123
+            player_properties['y'] = 0
+            self.lives = self.lives - 1
+            print(self.lives)
+            if self.lives == 0:
+                quit()
+            
         
     def update(self, newground: int):
         
@@ -153,19 +162,14 @@ class Player(Properties):
              
 
 
-    def lives(self):
-        if self.lives == 0:
-            return False
-        else:
-            return True
         
       
 from map import Map    
     
 class Shellcreeper(Properties): # This class defines all the movements for the shellcreeper and its behavior in the game. 
     def __init__(self, x, y, speed):
-        self.x = x
-        self.y = y
+        shellcreeper_properties['x'] = x
+        shellcreeper_properties['y'] = y
         self.direction = 1  # 1 for right, -1 for left
         self.sprite_x = 0
         self.sprite_y = 32
@@ -175,35 +179,34 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
     def update(self):
         # Update frame for walking animation
         self.counter = self.counter + 1
-        print(self.counter)
         if self.counter % 4:
             self.sprite_x = (self.sprite_x + 16) % 32
-        self.x += self.speed * self.direction
+        shellcreeper_properties['x'] += self.speed * self.direction
 
-        if self.x < 0:
-            self.x == 255
-        if self.x >= 230.0 and self.y >= 220.0:
-            self.x = 50  
-            self.y = 32
-        if self.x > pyxel.width:
-            self.x = 0   
+        if shellcreeper_properties['x'] < 0:
+            shellcreeper_properties['x'] == 255
+        if shellcreeper_properties['x'] >= 230.0 and shellcreeper_properties['y'] >= 220.0:
+            shellcreeper_properties['x'] = 50  
+            shellcreeper_properties['y'] = 32
+        if shellcreeper_properties['x'] > pyxel.width:
+            shellcreeper_properties['x'] = 0   
             
 
 
 
     def fall(self):
-        if 88 <= self.x <= 1000 and 57 <= self.y <= 105 :
+        if 88 <= shellcreeper_properties['x'] <= 1000 and 57 <= shellcreeper_properties['y'] <= 105 :
             self.vel_y = 2.5
-            self.y += self.vel_y
-        if 192 <= self.x <= 1000 and 105 <= self.y <= 169:
+            shellcreeper_properties['y'] += self.vel_y
+        if 192 <= shellcreeper_properties['x'] <= 1000 and 105 <= shellcreeper_properties['y'] <= 169:
             self.vel_y = 2.5
-            self.y += self.vel_y
-        if 88 <= self.x <= 150 and 169 <= self.y <= 226:
+            shellcreeper_properties['y'] += self.vel_y
+        if 88 <= shellcreeper_properties['x'] <= 150 and 169 <= shellcreeper_properties['y'] <= 226:
             self.vel_y = 2.5
-            self.y += self.vel_y
-        if 49 <= self.x <= 80 and 32 <= self.y <= 57.5:
+            shellcreeper_properties['y'] += self.vel_y
+        if 49 <= shellcreeper_properties['x'] <= 80 and 32 <= shellcreeper_properties['y'] <= 57.5:
             self.vel_y = 2.5
-            self.y += self.vel_y
+            shellcreeper_properties['y'] += self.vel_y
 
 
         
@@ -330,6 +333,9 @@ class App:
             if is_collision(colliders[i], ramp4_r):
                 colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
                 ground = ramp4_r['y'] 
+        
+        self.plane.enemyCol(shellcreeper_properties)
+        
         #print(ground)
         self.plane.update(ground)
         self.shellcreeper.update()
@@ -340,15 +346,15 @@ class App:
     def draw(self):
         pyxel.cls(0)
         self.map.draw()
-        pyxel.blt(self.shellcreeper.x, self.shellcreeper.y - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
+        pyxel.blt(shellcreeper_properties["x"], shellcreeper_properties['y'] - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
         self.sidestepper.draw()
         self.fighter.draw()
         if self.plane.direction == 1:
-            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22)
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22, 0)
         elif self.plane.direction == -1:
-            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22)
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, -16, 22, 0)
         elif self.plane.direction == 0:
-            pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22)
+            pyxel.blt(player_properties['x'], player_properties['y'], 0, 64, 10, 16, 22, 0)
         
         
         
