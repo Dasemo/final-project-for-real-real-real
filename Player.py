@@ -1,16 +1,18 @@
 
+
 from properties import Properties
-from collisions import player_properties
+from collisions import player_properties, shellcreeper_properties
 
 class Player(Properties):
     def __init__(self, x: int, y: int):
         player_properties["x"] = x
         player_properties['y'] = y
-        self.sprite = (0, 0, 0, 16, 22)
+        self.sprite = (0, 0, 0, 16, 22, 0)
         self.lives = 3
         self.vel_y = 0
         self.jumping = False
         self.direction = 1
+
 
     def move(self, direction: str, size: int):
         xSize = self.sprite[3]
@@ -27,7 +29,17 @@ class Player(Properties):
         if self.jumping == False:
             self.vel_y = -8
             self.jumping = True
+            self.direction = 0
         
+    def enemyCol(self, enemy):
+        if is_collision(player_properties, shellcreeper_properties):
+            player_properties["x"] = 123
+            player_properties['y'] = 0
+            self.lives = self.lives - 1
+            print(self.lives)
+            if self.lives == 0:
+                quit()
+            
         
     def update(self, newground: int):
         
@@ -35,15 +47,16 @@ class Player(Properties):
         if player_properties['y'] != newground:
             self.vel_y += 0.5
             self.jumping = True
-            print(newground)
         if (abs(player_properties['y'] - newground) < 7):
             self.vel_y = 0
             self.jumping = False
-            player_properties['y'] = newground 
-
-
-    def lives(self):
-        if self.lives == 0:
-            return False
-        else:
-            return True
+            player_properties['y'] = newground
+            
+def is_collision(character, platform):
+    # Rectangle collision detection
+    return (
+        character["x"] < platform["x"] + platform["w"]
+        and character["x"] + character["w"] > platform["x"]
+        and character["y"] < platform["y"] + platform["h"]
+        and character["y"] + character["h"] > platform["y"]
+    )   
