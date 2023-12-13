@@ -2,16 +2,16 @@ from app import App
 import pyxel 
 
 app = App(255, 255)
-app.start_screen = True # This function creates the startscreen and 
+app.start_screen = True
 
-def update():
+def update(): # This function creates the startscreen
     if app.start_screen:
         if pyxel.btn(pyxel.KEY_P):
             app.start_screen = False
     else:
         app.update()
         
-def draw():
+def draw(): # This function creates the startscreen's letters
     if app.start_screen:
         pyxel.cls(0)
         pyxel.text(85, 100, "Mario Bros. Classic", pyxel.COLOR_WHITE)

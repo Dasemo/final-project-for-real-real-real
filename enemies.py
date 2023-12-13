@@ -9,7 +9,7 @@ class Shellcreeper(Properties): # This class defines all the movements for the s
         self.sprite_x = 0
         self.sprite_y = 32
         self.vel_y = 0
-        self.speed = 1
+        self.speed = .7
         self.counter = 1
     def update(self):
         # Update frame for walking animation

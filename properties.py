@@ -1,5 +1,5 @@
 import pyxel
-class Properties:
+class Properties:   #This class ensures that all the values has their own property and setter
     def __init__(self, x, y, u, v, w, h, sprite=(0, 0, 0, 16, 22)):
         self.__x = x
         self.__y = y
@@ -9,7 +9,6 @@ class Properties:
         self.__h = h
         self.sprite = sprite
 
-    # Resto del código de la clase Properties
 
 
     @property

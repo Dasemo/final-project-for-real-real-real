@@ -2,7 +2,7 @@ import pyxel
 from Player import Player, player_properties
 from enemies import Shellcreeper, Fighter, Sidestepper
 from map import Map
-from collisions import ramp1_l, ramp1_r, ramp2_l, ramp2_r, ramp3, ramp4_l, ramp4_r, suelo, shellcreeper_properties
+from collisions import ramp1_l, ramp1_r, ramp2_l, ramp2_r, ramp3, ramp4_l, ramp4_r, suelo, shellcreeper_properties, pow
 
 class App:
     def __init__(self, w: int, h: int):
@@ -17,7 +17,7 @@ class App:
         self.sidestepper = Sidestepper(100, 60, 1)
         self.fighter = Fighter(120, 59, 1)
         self.map = Map()
-
+        self.counter = 1
     def update(self):
 
         
@@ -77,19 +77,31 @@ class App:
             if is_collision(colliders[i], ramp4_r):
                 colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
                 ground = ramp4_r['y'] 
+            if is_collision(colliders[i], pow):
+                colliders[i]["x"], colliders[i]["y"] = prev_player_x, prev_player_y
+                ground = pow['y'] 
         
         self.plane.enemyCol(shellcreeper_properties)
-        print(self.plane.lives)
         #print(ground)
         self.plane.update(ground)
-        self.shellcreeper.update()
-        self.shellcreeper.fall()
+        print(self.counter)
+        self.counter = self.counter + 1
+        if self.counter >= 1:
+            self.shellcreeper.update()
+            self.shellcreeper.fall()
+        if self.counter >= 20:
+            self.shellcreeper.update()
+            self.shellcreeper.fall()
+        self.sidestepper.update()
+        self.fighter.update()
 
         
     def draw(self):
         pyxel.cls(0)
         self.map.draw()
         pyxel.blt(shellcreeper_properties["x"], shellcreeper_properties['y'] - 3, 0, self.shellcreeper.sprite_x, self.shellcreeper.sprite_y, 16 * self.shellcreeper.direction, 16, 0)
+        self.sidestepper.draw()
+        self.fighter.draw()
         if self.plane.direction == 1:
             pyxel.blt(player_properties['x'], player_properties['y'], 0, 0, 10, 16, 22, 0)
         elif self.plane.direction == -1:
@@ -113,5 +125,5 @@ def is_collision(character, platform):
         and character["x"] + character["w"] > platform["x"]
         and character["y"] < platform["y"] + platform["h"]
         and character["y"] + character["h"] > platform["y"]
-    ) 
+    )    
   
