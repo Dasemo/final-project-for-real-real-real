@@ -48,6 +48,7 @@ class Map:
             a = 64
             for xd in range(16):
                 pyxel.blt(a, self.drawing[1][1] + 120, self.drawing[1][2], self.drawing[1][3], self.drawing[1][4], self.drawing[1][5], self.drawing[1][6])#Middle level
+                a = a + 8
             
             pyxel.blt(self.drawing[4][0] + 16, self.drawing[4][1] + 48, self.drawing[4][2], self.drawing[4][3], self.drawing[4][4], -self.drawing[4][5], self.drawing[4][6])#Pipe2 left
             pyxel.blt(self.drawing[2][0], self.drawing[2][1] + 47, self.drawing[2][2], self.drawing[2][3], self.drawing[2][4], -self.drawing[2][5], self.drawing[2][6])#Pipe1 left
